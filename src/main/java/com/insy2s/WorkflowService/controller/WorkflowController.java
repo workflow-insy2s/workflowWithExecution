@@ -1,6 +1,8 @@
 package com.insy2s.WorkflowService.controller;
 import com.insy2s.WorkflowService.exception.ResourceNotFoundException;
+import com.insy2s.WorkflowService.model.Step;
 import com.insy2s.WorkflowService.model.Workflow;
+import com.insy2s.WorkflowService.service.StepService;
 import com.insy2s.WorkflowService.service.WorkflowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +16,9 @@ import java.util.List;
 public class WorkflowController {
     @Autowired
     private WorkflowService workflowService;
+
+    @Autowired
+    private StepService stepService;
 
     @GetMapping
     public List<Workflow> getAllWorkflows(){
@@ -65,19 +70,38 @@ public class WorkflowController {
 
 
     // build delete Workflow REST API
+    //@DeleteMapping("{id}")
+    //public ResponseEntity<String> deleteWorkflow(@PathVariable long id){
+
+      //  Workflow workflow = workflowService.findById(id)
+        //        .orElseThrow(() -> new ResourceNotFoundException("workflow not exist with id: " + id));
+
+        //workflowService.delete(workflow);
+         //String mes = "Workflow supprimé avec succès";
+
+        //return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Workflow supprimé avec succès");
+        //return ResponseEntity.ok(mes);
+
+    //}
+
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteWorkflow(@PathVariable long id){
-
         Workflow workflow = workflowService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("workflow not exist with id: " + id));
 
+        // Delete associated steps
+        List<Step> steps = workflow.getSteps();
+        for (Step step : steps) {
+            stepService.delete(step);
+        }
+
+        // Delete the workflow
         workflowService.delete(workflow);
-         String mes = "Workflow supprimé avec succès";
+        String mes = "Workflow supprimé avec succès";
 
-        //return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Workflow supprimé avec succès");
         return ResponseEntity.ok(mes);
-
     }
+
 
 
 

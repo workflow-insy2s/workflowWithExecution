@@ -1,4 +1,5 @@
 package com.insy2s.WorkflowService.controller;
+import com.insy2s.WorkflowService.DTO.StepDto;
 import com.insy2s.WorkflowService.exception.ResourceNotFoundException;
 
 
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @RestController
 @RequestMapping("/api/workflow/steps")
+@CrossOrigin(origins = "http://localhost:4000")
+
 public class StepController {
 
     @Autowired
@@ -30,9 +33,15 @@ public class StepController {
 
 
     // build create Step REST API
-    @PostMapping
-    public Step createStep(@RequestBody Step step) {
-        return stepService.save(step);
+    @PostMapping //ajouter une nouvelle step
+    public Step createStep(@RequestBody StepDto step) {
+        Step entity=new Step();
+        entity.setName(step.getName());
+        entity.setDescription(step.getDescription());
+        Workflow workflow =new Workflow();
+        workflow.setId(step.getWorkflowId());
+        entity.setWorkflow(workflow);
+        return stepService.save(entity);
     }
 
     //
@@ -60,8 +69,6 @@ public class StepController {
 
         updateStep.setDescription(stepDetails.getDescription());
         updateStep.setName(stepDetails.getName());
-       // updateStep.setIdStepEntry(stepDetails.getIdStepEntry());
-       // updateStep.setIdStepExit(stepDetails.getIdStepExit());
         updateStep.setResult(stepDetails.getResult());
 
 
@@ -83,9 +90,6 @@ public class StepController {
                 .orElseThrow(() -> new ResourceNotFoundException("Step not exist with id: " + id));
 
         stepService.delete(step);
-
-
-
         String mes = "Step supprimé avec succès";
 
         return ResponseEntity.ok(mes);

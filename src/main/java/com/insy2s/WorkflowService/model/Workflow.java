@@ -28,7 +28,7 @@ public class Workflow {
     private Long role_id;
 
    // @JsonIgnore
-    @OneToMany(mappedBy = "workflow", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "workflow", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Step> steps;
 
 

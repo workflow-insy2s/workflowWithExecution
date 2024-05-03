@@ -27,17 +27,16 @@ public class Step {
     private LocalDateTime creationDate = LocalDateTime.now();
 
     //Liste de regles d'entre et liste de regle de sortie
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<Long> exitRulesIds;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<Long> entryRulesId;
 
     // Role qui responsable a Step
     private Long role_id;
 
-    //many to one step
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "workflow_id")
     private Workflow workflow;
 
