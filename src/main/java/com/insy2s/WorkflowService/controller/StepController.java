@@ -2,10 +2,7 @@ package com.insy2s.WorkflowService.controller;
 import com.insy2s.WorkflowService.exception.ResourceNotFoundException;
 
 
-import com.insy2s.WorkflowService.model.Conditional;
-import com.insy2s.WorkflowService.model.Iterative;
-import com.insy2s.WorkflowService.model.Step;
-import com.insy2s.WorkflowService.model.Workflow;
+import com.insy2s.WorkflowService.model.*;
 import com.insy2s.WorkflowService.service.StepService;
 import com.insy2s.WorkflowService.service.WorkflowService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @RestController
 @RequestMapping("/api/workflow/steps")
+@CrossOrigin(origins = "http://localhost:4000/")
 public class StepController {
 
     @Autowired
@@ -62,7 +60,7 @@ public class StepController {
         updateStep.setName(stepDetails.getName());
        // updateStep.setIdStepEntry(stepDetails.getIdStepEntry());
        // updateStep.setIdStepExit(stepDetails.getIdStepExit());
-        updateStep.setResult(stepDetails.getResult());
+        //updateStep.setResult(stepDetails.getResult());
 
 
         updateStep.setWorkflow(stepDetails.getWorkflow());
@@ -114,7 +112,7 @@ public class StepController {
 
 
     // build create Step REST API with workflow ID
-    @PostMapping("/workflow/{workflowId}")
+    @PostMapping("/addStepInWorkflow/{workflowId}")
     public ResponseEntity<Step> createStepWithWorkflowId(@PathVariable Long workflowId, @RequestBody Step step) {
         // Rechercher le workflow correspondant à l'ID
         Workflow workflow = workflowService.findById(workflowId)
@@ -163,7 +161,20 @@ public class StepController {
     }
 
 
+    // Obtenir tous les Steps par ID de Workflow
+//    @GetMapping("/workflow/{workflowId}")
+//    public List<Step> getAllStepsByWorkflowId(@PathVariable Long workflowId) {
+//        return stepService.findAllByWorkflowId(workflowId);
+//
+//    }
 
+
+// get all steps by workflowId and Role Id
+@GetMapping("/workflow/{workflowId}/role/{roleId}")
+public List<Step> getStepsByWorkflowIdAndRoleId(@PathVariable Long workflowId, @PathVariable Long roleId) {
+    return stepService.findAllStepsByWorkflowIdAndRoleId(workflowId, roleId);
+
+}
 
 
 

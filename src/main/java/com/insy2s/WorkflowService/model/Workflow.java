@@ -24,12 +24,14 @@ public class Workflow {
     private LocalDateTime creationDate = LocalDateTime.now();
 
 
-// Role qui responsable a Step
-    private Long role_id;
-
-   // @JsonIgnore
-    @OneToMany(mappedBy = "workflow", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Step> steps;
+    // qui peut accedér a cette workflow ?
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<Long> role;
+//rolesId
+    //private Long role;
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "workflow", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Step> steps;
 
 
 

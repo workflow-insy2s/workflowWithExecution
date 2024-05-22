@@ -1,16 +1,16 @@
 package com.insy2s.WorkflowService.controller;
 import com.insy2s.WorkflowService.exception.ResourceNotFoundException;
-import com.insy2s.WorkflowService.model.Workflow;
+import com.insy2s.WorkflowService.model.Step;
 import com.insy2s.WorkflowService.model.WorkflowExecutes;
 import com.insy2s.WorkflowService.service.WorkflowExecutesService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
 @RequestMapping("/api/workflow/workflowExs")
+@CrossOrigin(origins = "http://localhost:4000/")
 public class WorkflowExecutesController {
     @Autowired
     private WorkflowExecutesService workflowExecutesService;
@@ -24,6 +24,8 @@ public class WorkflowExecutesController {
     public WorkflowExecutes createWorkflowExecutes(@RequestBody WorkflowExecutes workflowExecutes) {
         return workflowExecutesService.save(workflowExecutes);
     }
+    // save workflow to be executed
+
 
 
 
@@ -78,6 +80,31 @@ public class WorkflowExecutesController {
     }
 
 
+// pour les steps du workflow ordoner par le rank
+@GetMapping("/workflow/stpes/{workflowId}")
+public List<WorkflowExecutes> getAllStepsByWorkflowId(@PathVariable Long workflowId) {
+    return workflowExecutesService.findAllByWorkflowId(workflowId);
 
+}
+
+
+//Add Steps executed by User
+@PostMapping("/addSteps/{userId}")
+public ResponseEntity<String> addStepsToWorkflowExecutes(@RequestBody List<Step> steps, @PathVariable Long userId) {
+    for (Step step : steps) {
+        WorkflowExecutes workflowExecutes = new WorkflowExecutes();
+        workflowExecutes.setState("Ouvert"); // Remplacez par l'état initial souhaité
+        workflowExecutes.setUser_id(userId);
+//        workflowExecutes.setStart_date(LocalDateTime.now());
+//        workflowExecutes.setEnd_date(LocalDateTime.now().plusHours(1)); // Exemple, ajustez si nécessaire
+        workflowExecutes.setWorkflow(step.getWorkflow());
+        workflowExecutes.setStep(step);
+
+         workflowExecutesService.save(workflowExecutes);
+    }
+
+
+    return ResponseEntity.ok("All steps saved");
+}
 
 }

@@ -21,30 +21,31 @@ public class Step {
     private Long id;
     private String name;
     private String description;
-    private String result;
 
     @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime creationDate = LocalDateTime.now();
 
     //Liste de regles d'entre et liste de regle de sortie
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<Long> exitRulesIds;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<Long> entryRulesId;
 
     // Role qui responsable a Step
-    private Long role_id;
+    private Long role;
 
     //many to one step
-    @JsonIgnore
+   // @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "workflow_id")
     private Workflow workflow;
 
 
 
+//order
+    private Long rank ;
 
-
-
+//le etape précédente pour le presentation de graphe de workflow
+    //private Long previous_step;
 
 }

@@ -39,12 +39,14 @@ public class WorkflowExecutes {
 
 
     // Relation MANY TO ONE  with Step
+
     @ManyToOne
     @JoinColumn(name = "step_id")
     private Step step;
 
 
 
-
+//les step na5thohom mina
+    //select steps where workflow = id and
 
 }
