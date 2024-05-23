@@ -1,4 +1,5 @@
 package com.insy2s.WorkflowService.model;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
