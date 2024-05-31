@@ -59,9 +59,9 @@ public class StepController {
 
         updateStep.setDescription(stepDetails.getDescription());
         updateStep.setName(stepDetails.getName());
-       // updateStep.setIdStepEntry(stepDetails.getIdStepEntry());
-       // updateStep.setIdStepExit(stepDetails.getIdStepExit());
-        //updateStep.setResult(stepDetails.getResult());
+        updateStep.setEntryRulesId(stepDetails.getEntryRulesId());
+        updateStep.setExitRulesIds(stepDetails.getExitRulesIds());
+        updateStep.setRole(stepDetails.getRole());
 
 
         updateStep.setWorkflow(stepDetails.getWorkflow());

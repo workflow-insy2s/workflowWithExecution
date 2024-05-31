@@ -33,8 +33,9 @@ public class Step {
     private List<Long> entryRulesId;
 
     // Role qui responsable a Step
-    private Long role;
-
+  //  private Long role;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<Long> role;
     //many to one step
    // @JsonIgnore
     @ManyToOne
