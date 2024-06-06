@@ -1,11 +1,9 @@
 package com.insy2s.WorkflowService.model;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 
 @Getter
@@ -13,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class WorkflowExecutes {
+public class StepEx {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,17 +20,17 @@ public class WorkflowExecutes {
 
     private Long user_id;
 
-    @Column(columnDefinition = "TIMESTAMP")
-    private LocalDateTime start_date = LocalDateTime.now();
 
-    @Column(columnDefinition = "TIMESTAMP")
-    private LocalDateTime end_date = LocalDateTime.now();
+    private LocalDateTime start_date;
+
+    private LocalDateTime end_date;
 
 
     // Relation MANY TO ONE with Workflow
-    @ManyToOne
-    @JoinColumn(name = "workflow_id")
-    private Workflow workflow;
+//    @ManyToOne
+//    @JoinColumn(name = "workflowEx_id")
+//    private WorkflowEx workflowEx;
+    private Long workflowEx;
 
 
 
@@ -46,7 +44,6 @@ public class WorkflowExecutes {
 
 
 
-//les step na5thohom mina
-    //select steps where workflow = id and
+
 
 }

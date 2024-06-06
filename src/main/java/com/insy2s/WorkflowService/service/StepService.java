@@ -2,7 +2,6 @@ package com.insy2s.WorkflowService.service;
 
 import com.insy2s.WorkflowService.model.Step;
 import com.insy2s.WorkflowService.model.Workflow;
-import com.insy2s.WorkflowService.model.WorkflowExecutes;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
