@@ -20,6 +20,7 @@ public class Workflow {
     private Long id;
     private String name;
     private String description;
+    private String status;
 
     @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime creationDate = LocalDateTime.now();

@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface StepService extends JpaRepository<Step, Long> {
+    void deleteByWorkflow(Workflow workflow);
    // @Query("SELECT s FROM Step s WHERE s.workflow.id = :workflowId order by rank " )
    // List<Step> findAllByWorkflowId(@Param("workflowId") Long workflowId);
     //    @Query("SELECT s FROM Step s WHERE s.workflow.id = :workflowId AND s.role = :roleId ORDER BY s.rank")

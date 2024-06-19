@@ -10,6 +10,7 @@ import com.insy2s.WorkflowService.service.WorkflowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -22,6 +23,8 @@ import java.util.List;
 public class WorkflowController {
     @Autowired
     private WorkflowService workflowService;
+    @Autowired
+    private StepService stepService;
 
 
 
@@ -63,7 +66,9 @@ public class WorkflowController {
 
         updateWorkflow.setName(workflowDetails.getName());
         updateWorkflow.setDescription(workflowDetails.getDescription());
-        //updateWorkflow.setResponsible(workflowDetails.getResponsible());
+        updateWorkflow.setRole(workflowDetails.getRole());
+        updateWorkflow.setStatus(workflowDetails.getStatus());
+
 
 
 
@@ -76,7 +81,7 @@ public class WorkflowController {
 
 
     // build delete Workflow REST API
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteWorkflow(@PathVariable long id){
 
         Workflow workflow = workflowService.findById(id)
@@ -89,6 +94,29 @@ public class WorkflowController {
         return ResponseEntity.ok(mes);
 
     }
+
+    //delete workflow with Step
+    @DeleteMapping("/withStep/{id}")
+    @Transactional
+    public ResponseEntity<String> deleteWorkflowwithStep(@PathVariable long id){
+
+        Workflow workflow = workflowService.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("workflow not exist with id: " + id));
+
+
+        // Supprimer toutes les étapes associées
+        stepService.deleteByWorkflow(workflow);
+
+        workflowService.delete(workflow);
+        String mes = "Workflow supprimé avec succès";
+
+        //return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Workflow supprimé avec succès");
+        return ResponseEntity.ok(mes);
+
+    }
+
+
+
     //getAllWorkflow By Step Id
     @GetMapping("/role/{role}")
     public List<Workflow> getAllWorkflowByRole(@PathVariable Long role) {

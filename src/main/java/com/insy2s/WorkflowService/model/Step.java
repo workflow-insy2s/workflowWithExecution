@@ -22,6 +22,7 @@ public class Step {
     private Long id;
     private String name;
     private String description;
+    private String status;
 
     @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime creationDate = LocalDateTime.now();
@@ -38,7 +39,7 @@ public class Step {
     private List<Long> role;
     //many to one step
    // @JsonIgnore
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "workflow_id")
     private Workflow workflow;
 

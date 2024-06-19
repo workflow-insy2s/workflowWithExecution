@@ -52,7 +52,7 @@ public class StepController {
 
 
     // build update Step REST API
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Step> updateStep(@PathVariable long id,@RequestBody Step stepDetails) {
         Step updateStep = stepService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Step not exist with id: " + id));
@@ -62,6 +62,7 @@ public class StepController {
         updateStep.setEntryRulesId(stepDetails.getEntryRulesId());
         updateStep.setExitRulesIds(stepDetails.getExitRulesIds());
         updateStep.setRole(stepDetails.getRole());
+        updateStep.setStatus(stepDetails.getStatus());
 
 
         updateStep.setWorkflow(stepDetails.getWorkflow());
